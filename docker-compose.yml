@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  db:
+    image: ds10x2/mydb:1.0
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: userDB
+
+  web:
+    image: ds10x2/userserver:1.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      MONGODB_URI: mongodb://db:27017/userDB
