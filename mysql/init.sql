@@ -1,0 +1,11 @@
+-- init.sql
+
+CREATE DATABASE IF NOT EXISTS manageuser;
+
+USE manageuser;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255),
+  userid VARCHAR(255)
+);
