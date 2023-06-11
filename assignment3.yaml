@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db-pod
+spec:
+  containers:
+    - name: db
+      image: ds10x2/mysqldb:1.2
+      ports:
+        - containerPort: 3306
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root1234
+        - name: MYSQL_DATABASE
+          value: manageuser
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "no"
+      volumeMounts:
+        - name: db-data
+          mountPath: /var/lib/mysqldb
+  volumes:
+    - name: db-data
+      emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jsserver-pod
+spec:
+  containers:
+    - name: jsserver
+      image: ds10x2/jsserver-sql:1.2
+      ports:
+        - containerPort: 3000
+      env:
+        - name: DB_HOST
+          value: db
+        - name: DB_USER
+          value: root
+        - name: DB_PASSWORD
+          value: root1234
+        - name: DB_NAME
+          value: manageuser
+  volumes:
+    - name: db-data
+      emptyDir: {}
